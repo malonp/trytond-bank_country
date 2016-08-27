@@ -1,0 +1,74 @@
+# 
+msgid ""
+msgstr "Content-Type: text/plain; charset=utf-8\n"
+
+msgctxt "field:bank,country:"
+msgid "Country"
+msgstr "País"
+
+msgctxt "field:bank,code:"
+msgid "National Code"
+msgstr "Código nacional"
+
+msgctxt "help:bank,country:"
+msgid "Select country to enter national identification number for this bank"
+msgstr "Seleccionar pais para introducir el codigo de identificacion de la entidad"
+
+msgctxt "help:bank,code:"
+msgid "National Identifier Code for this bank"
+msgstr "Código nacional de identificación del banco"
+
+msgctxt "field:bank.configuration-bank,bank_country:"
+msgid "Bank Country"
+msgstr "País del banco"
+
+msgctxt "help:bank.configuration-bank,bank_country:"
+msgid "The value set on this field will preset the country on new banks"
+msgstr "Valor predeterminado para el campo pais en los nuevos bancos"
+
+msgctxt "field:bank.configuration-account,account_currency:"
+msgid "Account Currency"
+msgstr "Moneda de la cuenta"
+
+msgctxt "help:bank.configuration-account,account_currency:"
+msgid "The value set on this field will preset the currency on new bankaccounts"
+msgstr "Valor predeterminado para el campo moneda en las nuevas cuentas bancarias"
+
+
+msgctxt "model:ir.action,name:act_bank_configuration_form"
+msgid "Bank Configuration"
+msgstr "Configuración de bancos"
+
+msgctxt "model:ir.action,name:act_bankaccount_configuration_form"
+msgid "Account Configuration"
+msgstr "Configuración de cuentas"
+
+
+msgctxt "model:ir.ui.menu,name:menu_bank_configuration"
+msgid "Configuration"
+msgstr "Configuración"
+
+msgctxt "model:ir.ui.menu,name:menu_bank_configuration-bank"
+msgid "Bank"
+msgstr "Bancos"
+
+msgctxt "model:ir.ui.menu,name:menu_bank_configuration-bankaccount"
+msgid "Account"
+msgstr "Cuentas"
+
+
+msgctxt "error:bank:"
+msgid "This bank already exists!"
+msgstr "Este banco ya existe en la base de datos!"
+
+msgctxt "error:bank.account.number:"
+msgid "This bank account number already exists!"
+msgstr "Este numero de cuenta ya existe en la base de datos!"
+
+msgctxt "error:bank.account.number:"
+msgid "Invalid BBAN \"%s\"."
+msgstr "BBAN no válido \"%s\"."
+
+msgctxt "error:bank.account-party.party:"
+msgid "The party is already owner of this account!"
+msgstr "El tercero ya figura como titular de esta cuenta!"
