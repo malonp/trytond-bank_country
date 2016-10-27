@@ -21,9 +21,11 @@
 
 from stdnum import iban
 
+from trytond import backend
 from trytond.model import ModelView, ModelSQL, ModelSingleton, fields, Unique
 from trytond.pool import Pool, PoolMeta
 from trytond.pyson import Eval, Not, Bool
+from trytond.transaction import Transaction
 
 HAS_BANKNUMBER = False
 BANK_COUNTRIES = []
@@ -55,6 +57,19 @@ class Bank:
             'invisible': Not(Bool(Eval('country'))),
             'required': Not(Bool(Eval('bic')))
             })
+
+    @classmethod
+    def __register__(cls, module_name):
+        TableHandler = backend.get('TableHandler')
+        cursor = Transaction().cursor
+        table = TableHandler(cursor, cls, module_name)
+
+        # Migration from 0.8.0:
+        #   - national_id renamed into code
+        if table.column_exist('national_id'):
+            table.column_rename('national_id', 'code')
+
+        super(Bank, cls).__register__(module_name)
 
     @classmethod
     def __setup__(cls):
