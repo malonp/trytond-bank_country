@@ -161,6 +161,16 @@ class BankAccountNumber:
                     + self.number[:2].lower())(bban)):
                 self.raise_user_error('invalid_bban', bban)
 
+    @classmethod
+    def validate(cls, bankaccountnumbers):
+        super(BankAccountNumber, cls).validate(bankaccountnumbers)
+        for bankaccountnumber in bankaccountnumbers:
+            bankaccountnumber.iban_not_empty()
+
+    def iban_not_empty(self):
+        if (self.type == 'iban' and not self.number):
+            self.raise_user_error('IBAN value is empty')
+
 
 class BankAccountParty:
     __metaclass__ = PoolMeta

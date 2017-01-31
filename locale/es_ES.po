@@ -69,6 +69,10 @@ msgctxt "error:bank.account.number:"
 msgid "Invalid BBAN \"%s\"."
 msgstr "BBAN no válido \"%s\"."
 
+msgctxt "error:bank.account.number:"
+msgid "IBAN value is empty"
+msgstr "El numero IBAN esta vacio"
+
 msgctxt "error:bank.account-party.party:"
 msgid "The party is already owner of this account!"
 msgstr "El tercero ya figura como titular de esta cuenta!"
