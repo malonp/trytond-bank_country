@@ -24,6 +24,7 @@ def countries():
     '''
     Return the list of country's codes that have check function
     '''
+
     res = [x.replace('check_code_', '').upper() for x in globals()
           if x.startswith('check_code_')]
     res.sort()

@@ -21,6 +21,7 @@
 
 from trytond.pool import Pool
 from .bank import *
+from .configuration import *
 
 def register():
     Pool.register(

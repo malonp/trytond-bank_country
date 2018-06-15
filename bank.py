@@ -21,31 +21,20 @@
 
 from stdnum import iban
 
-from trytond.model import ModelView, ModelSQL, ModelSingleton, fields, Unique
+from trytond.model import ModelView, ModelSQL, fields, Unique
 from trytond.pool import Pool, PoolMeta
 from trytond.pyson import Eval, Not, Bool
 
-HAS_BANKNUMBER = False
-BANK_COUNTRIES = []
-try:
-    from . import banknumber
-    HAS_BANKNUMBER = True
-    for country in banknumber.countries():
-        BANK_COUNTRIES.append(country)
-
-except ImportError:
-    import logging
-    logging.getLogger('bank_validation').warning(
-            'Unable to import banknumber. Bank code validation disabled.')
+from .configuration import HAS_BANKNUMBER, BANK_COUNTRIES
+from . import banknumber
 
 
-__all__ = ['Bank', 'BankConfiguration',
-           'BankAccount', 'BankAccountConfiguration',
-           'BankAccountNumber', 'BankAccountParty']
+__all__ = ['Bank', 'BankAccount',
+           'BankAccountNumber', 'BankAccountParty',
+           ]
 
 
-class Bank:
-    __metaclass__ = PoolMeta
+class Bank(metaclass=PoolMeta):
     __name__ = 'bank'
     country = fields.Many2One('country.country', 'Country',
         domain=[('code', 'in', BANK_COUNTRIES)],
@@ -85,20 +74,10 @@ class Bank:
             return config.bank_country.id
 
 
-class BankConfiguration(ModelSingleton, ModelSQL, ModelView):
-    'Bank Configuration'
-    __name__ = 'bank.configuration-bank'
-
-    bank_country = fields.Property(fields.Many2One('country.country',
-            'Bank Country', domain=[
-                ('code', 'in', BANK_COUNTRIES),
-                ], help=('The value set on this field will preset the country on new '
-            'banks')))
-
-
-class BankAccount:
-    __metaclass__ = PoolMeta
+class BankAccount(metaclass=PoolMeta):
     __name__ = 'bank.account'
+
+    currency = fields.Many2One('currency.currency', 'Currency')
 
     @staticmethod
     def default_currency():
@@ -108,17 +87,7 @@ class BankAccount:
             return config.account_currency.id
 
 
-class BankAccountConfiguration(ModelSingleton, ModelSQL, ModelView):
-    'Bank Configuration'
-    __name__ = 'bank.configuration-account'
-
-    account_currency = fields.Property(fields.Many2One('currency.currency',
-            'Account Currency', help=('The value set on this field will preset the currency on new '
-            'bankaccounts')))
-
-
-class BankAccountNumber:
-    __metaclass__ = PoolMeta
+class BankAccountNumber(metaclass=PoolMeta):
     __name__ = 'bank.account.number'
 
     @classmethod
@@ -157,8 +126,7 @@ class BankAccountNumber:
             self.raise_user_error('IBAN value is empty')
 
 
-class BankAccountParty:
-    __metaclass__ = PoolMeta
+class BankAccountParty(metaclass=PoolMeta):
     __name__ = 'bank.account-party.party'
 
     @classmethod
