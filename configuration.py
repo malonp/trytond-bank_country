@@ -25,35 +25,38 @@ HAS_BANKNUMBER = False
 BANK_COUNTRIES = []
 try:
     from . import banknumber
+
     HAS_BANKNUMBER = True
     for country in banknumber.countries():
         BANK_COUNTRIES.append(country)
 
 except ImportError:
     import logging
-    logging.getLogger('bank_validation').warning(
-            'Unable to import banknumber. Bank code validation disabled.')
+
+    logging.getLogger('bank_validation').warning('Unable to import banknumber. Bank code validation disabled.')
 
 
-__all__ = ['BankConfiguration',
-           'BankAccountConfiguration',
-           ]
+__all__ = ['BankConfiguration', 'BankAccountConfiguration']
 
 
 class BankConfiguration(ModelSingleton, ModelSQL, ModelView):
     'Bank Configuration'
     __name__ = 'bank.configuration-bank'
 
-    bank_country = fields.Many2One('country.country', 'Bank Country',
-            domain=[('code', 'in', BANK_COUNTRIES),],
-            help=('The value set on this field will preset the country on new '
-            'banks'))
+    bank_country = fields.Many2One(
+        'country.country',
+        'Bank Country',
+        domain=[('code', 'in', BANK_COUNTRIES)],
+        help=('The value set on this field will preset the country on new ' 'banks'),
+    )
 
 
 class BankAccountConfiguration(ModelSingleton, ModelSQL, ModelView):
     'Bank Configuration'
     __name__ = 'bank.configuration-account'
 
-    account_currency = fields.Many2One('currency.currency',
-            'Account Currency', help=('The value set on this field will preset the currency on new '
-            'bankaccounts'))
+    account_currency = fields.Many2One(
+        'currency.currency',
+        'Account Currency',
+        help=('The value set on this field will preset the currency on new ' 'bankaccounts'),
+    )
