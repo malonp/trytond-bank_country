@@ -28,10 +28,10 @@ def register():
     Pool.register(
         Bank,
         BankAccount,
+        BankAccountConfiguration,
         BankAccountNumber,
         BankAccountParty,
         BankConfiguration,
-        BankAccountConfiguration,
         module='bank_country',
         type_='model',
     )
