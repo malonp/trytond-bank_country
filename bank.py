@@ -29,30 +29,29 @@ from .configuration import HAS_BANKNUMBER, BANK_COUNTRIES
 from . import banknumber
 
 
-__all__ = ['Bank', 'BankAccount',
-           'BankAccountNumber', 'BankAccountParty',
-           ]
+__all__ = ['Bank', 'BankAccount', 'BankAccountNumber', 'BankAccountParty']
 
 
 class Bank(metaclass=PoolMeta):
     __name__ = 'bank'
-    country = fields.Many2One('country.country', 'Country',
+    country = fields.Many2One(
+        'country.country',
+        'Country',
         domain=[('code', 'in', BANK_COUNTRIES)],
-        help='Select country to enter national identification number for this bank')
-    code = fields.Char('National Code', help='National Identifier Code for this bank',
-        depends=['bic', 'country'], states={
-            'invisible': Not(Bool(Eval('country'))),
-            'required': Not(Bool(Eval('bic')))
-            })
+        help='Select country to enter national identification number for this bank',
+    )
+    code = fields.Char(
+        'National Code',
+        help='National Identifier Code for this bank',
+        depends=['bic', 'country'],
+        states={'invisible': Not(Bool(Eval('country'))), 'required': Not(Bool(Eval('bic')))},
+    )
 
     @classmethod
     def __setup__(cls):
         super(Bank, cls).__setup__()
         t = cls.__table__()
-        cls._sql_constraints += [
-            ('bank_uniq', Unique(t,t.country, t.code),
-                'This bank already exists!'),
-        ]
+        cls._sql_constraints += [('bank_uniq', Unique(t, t.country, t.code), 'This bank already exists!')]
 
     @classmethod
     def search_rec_name(cls, name, clause):
@@ -60,11 +59,7 @@ class Bank(metaclass=PoolMeta):
             bool_op = 'AND'
         else:
             bool_op = 'OR'
-        return [bool_op,
-            ('party',) + tuple(clause[1:]),
-            ('bic',) + tuple(clause[1:]),
-            ('code',) + tuple(clause[1:]),
-            ]
+        return [bool_op, ('party',) + tuple(clause[1:]), ('bic',) + tuple(clause[1:]), ('code',) + tuple(clause[1:])]
 
     @staticmethod
     def default_country():
@@ -95,13 +90,9 @@ class BankAccountNumber(metaclass=PoolMeta):
         super(BankAccountNumber, cls).__setup__()
         t = cls.__table__()
         cls._sql_constraints += [
-            ('bankaccountnumber_uniq', Unique(t,t.type, t.number_compact),
-                'This bank account number already exists!'),
+            ('bankaccountnumber_uniq', Unique(t, t.type, t.number_compact), 'This bank account number already exists!')
         ]
-        cls._error_messages.update({
-                'invalid_iban': 'Invalid IBAN "%s".',
-                'invalid_bban': 'Invalid BBAN "%s".',
-                })
+        cls._error_messages.update({'invalid_iban': 'Invalid IBAN "%s".', 'invalid_bban': 'Invalid BBAN "%s".'})
 
     @fields.depends('type', 'number')
     def pre_validate(self):
@@ -109,10 +100,9 @@ class BankAccountNumber(metaclass=PoolMeta):
         '''
         Check the Bank number depending of the country.
         '''
-        if (self.type == 'iban' and self.number and HAS_BANKNUMBER):
+        if self.type == 'iban' and self.number and HAS_BANKNUMBER:
             bban = iban.compact(self.number)[4:]
-            if (not getattr(banknumber, 'check_code_'
-                    + self.number[:2].lower())(bban)):
+            if not getattr(banknumber, 'check_code_' + self.number[:2].lower())(bban):
                 self.raise_user_error('invalid_bban', bban)
 
     @classmethod
@@ -122,7 +112,7 @@ class BankAccountNumber(metaclass=PoolMeta):
             bankaccountnumber.iban_not_empty()
 
     def iban_not_empty(self):
-        if (self.type == 'iban' and not self.number):
+        if self.type == 'iban' and not self.number:
             self.raise_user_error('IBAN value is empty')
 
 
@@ -134,6 +124,5 @@ class BankAccountParty(metaclass=PoolMeta):
         super(BankAccountParty, cls).__setup__()
         t = cls.__table__()
         cls._sql_constraints += [
-            ('bankaccountowner_uniq', Unique(t,t.account, t.owner),
-                'The party is already owner of this account!'),
+            ('bankaccountowner_uniq', Unique(t, t.account, t.owner), 'The party is already owner of this account!')
         ]

@@ -37,7 +37,7 @@ this repository contains the full copyright notices and license terms. -->
 
 
         <menuitem name="Configuration" parent="bank.menu_banking"
-            id="menu_bank_configuration" sequence="0" icon="tryton-preferences"/>
+            id="menu_bank_configuration" sequence="0" icon="tryton-settings"/>
         <menuitem parent="menu_bank_configuration"
             action="act_bank_configuration_form"
             id="menu_bank_configuration-bank"

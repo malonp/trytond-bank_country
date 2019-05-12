@@ -23,12 +23,15 @@ from trytond.pool import Pool
 from .bank import *
 from .configuration import *
 
+
 def register():
     Pool.register(
         Bank,
         BankAccount,
+        BankAccountConfiguration,
         BankAccountNumber,
         BankAccountParty,
         BankConfiguration,
-        BankAccountConfiguration,
-        module='bank_country', type_='model')
+        module='bank_country',
+        type_='model',
+    )
