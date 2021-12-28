@@ -20,14 +20,12 @@
 ##############################################################################
 
 from stdnum import iban
-
-from trytond.model import ModelView, ModelSQL, fields, Unique
+from trytond.model import ModelSQL, ModelView, Unique, fields
 from trytond.pool import Pool, PoolMeta
-from trytond.pyson import Eval, Not, Bool
+from trytond.pyson import Bool, Eval, Not
 
-from .configuration import HAS_BANKNUMBER, BANK_COUNTRIES
 from . import banknumber
-
+from .configuration import BANK_COUNTRIES, HAS_BANKNUMBER
 
 __all__ = ['Bank', 'BankAccount', 'BankAccountNumber', 'BankAccountParty']
 

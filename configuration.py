@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-from trytond.model import ModelView, ModelSQL, ModelSingleton, fields
+from trytond.model import ModelSingleton, ModelSQL, ModelView, fields
 
 HAS_BANKNUMBER = False
 BANK_COUNTRIES = []
