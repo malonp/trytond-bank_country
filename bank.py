@@ -20,7 +20,7 @@
 ##############################################################################
 
 from stdnum import iban
-from trytond.model import ModelSQL, ModelView, Unique, fields
+from trytond.model import Unique, fields
 from trytond.pool import Pool, PoolMeta
 from trytond.pyson import Bool, Eval, Not
 
